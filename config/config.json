@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "exampledb",
+    "password": "Mickey19",
+    "database": "homehealthcheckdb",
     "host": "localhost",
     "dialect": "mysql"
   },
