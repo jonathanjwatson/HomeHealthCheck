@@ -2,24 +2,31 @@
   <div class="container">
     <div class="row">
       <div class="col-8 offset-2">
-        <h1>{{msg}}</h1>
-        <h2>This is our Home Page!</h2>
+        <h2>Welcome to Home Health Check</h2>
         <form class="clearfix mb-4" action="POST">
           <div class="form-group">
-            <label for="example-text">Example Text</label>
-            <input type="text" id="example-text" class="form-control" aria-describedby="example-text" placeholder="Enter Example Text">
+            <label for="check-text">Check Name</label>
+            <input type="text" id="check-name" class="form-control" aria-describedby="check-name" placeholder="Enter Check Name">
           </div>
           <div class="form-group">
-            <label for="example-description">Example Description</label>
-            <textarea class="form-control" id="example-description" aria-describedby="example-description" placeholder="Enter Example Description"></textarea>
+            <label for="check-description">Check Description</label>
+            <textarea class="form-control" id="check-description" aria-describedby="check-description" placeholder="Enter Check Description"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="check-text">Check URL</label>
+            <input type="text" id="check-url" class="form-control" aria-describedby="check-url" placeholder="Enter Check URL">
+          </div>
+          <div class="form-group">
+            <label for="check-frequency">Check Frequency</label>
+            <input type="number" id="check-frequency" class="form-control" aria-describedby="check-text" placeholder="Enter Check Frequency">
           </div>
           <button id="submit" class="btn btn-primary float-right">Submit</button>
         </form>
-        <h3>Examples:</h3>
-        <ul id="example-list" class="list-group">
-          {{#each examples}}
+        <h3>Checks:</h3>
+        <ul id="check-list" class="list-group">
+          {{#each checks}}
           <li data-id="{{this.id}}" class="list-group-item">
-            <a href="example/{{this.id}}">{{this.text}}</a>
+            <a href="check/{{this.id}}">{{this.name}}</a>
             <button class="btn btn-danger float-right delete">ｘ</button>
           </li>
           {{/each}}

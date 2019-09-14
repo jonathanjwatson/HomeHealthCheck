@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "Mickey19",
-    "database": "exampledb",
+    "database": "homehealthcheckdb",
     "host": "localhost",
     "dialect": "mysql"
   },

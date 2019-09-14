@@ -1,47 +1,58 @@
 // Get references to page elements
-var $exampleText = $("#example-text");
-var $exampleDescription = $("#example-description");
+var $checkName = $("#check-name");
+var $checkDescription = $("#check-description");
+var $checkUrl = $("#check-url");
+var $checkFrequency = $("#check-frequency");
 var $submitBtn = $("#submit");
-var $exampleList = $("#example-list");
+var $checkList = $("#check-list");
+const $manualCheck = $(".runCheck");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
-  saveExample: function(example) {
+  saveExample: function(check) {
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
       },
       type: "POST",
-      url: "api/examples",
-      data: JSON.stringify(example)
+      url: "api/checks",
+      data: JSON.stringify(check)
     });
   },
   getExamples: function() {
     return $.ajax({
-      url: "api/examples",
+      url: "api/checks",
       type: "GET"
     });
   },
   deleteExample: function(id) {
     return $.ajax({
-      url: "api/examples/" + id,
+      url: "api/checks/" + id,
       type: "DELETE"
+    });
+  },
+  runCheck: function(id) {
+    console.log(id);
+    let url = "http://localhost:3000/api/runChecks/" + id;
+    return $.ajax({
+      url: url,
+      type: "GET"
     });
   }
 };
 
-// refreshExamples gets new examples from the db and repopulates the list
+// refreshExamples gets new checks from the db and repopulates the list
 var refreshExamples = function() {
   API.getExamples().then(function(data) {
-    var $examples = data.map(function(example) {
+    var $checks = data.map(function(check) {
       var $a = $("<a>")
-        .text(example.text)
-        .attr("href", "/example/" + example.id);
+        .text(check.name)
+        .attr("href", "/check/" + check.id);
 
       var $li = $("<li>")
         .attr({
           class: "list-group-item",
-          "data-id": example.id
+          "data-id": check.id
         })
         .append($a);
 
@@ -54,36 +65,52 @@ var refreshExamples = function() {
       return $li;
     });
 
-    $exampleList.empty();
-    $exampleList.append($examples);
+    $checkList.empty();
+    $checkList.append($checks);
   });
 };
 
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
+// handleFormSubmit is called whenever we submit a new check
+// Save the new check to the db and refresh the list
 var handleFormSubmit = function(event) {
   event.preventDefault();
 
-  var example = {
-    text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
+  var check = {
+    name: $checkName.val().trim(),
+    description: $checkDescription.val().trim(),
+    url: $checkUrl.val().trim(),
+    frequency: $checkFrequency.val().trim()
   };
 
-  if (!(example.text && example.description)) {
-    alert("You must enter an example text and description!");
+  if (!(check.name && check.description)) {
+    alert("You must enter an check text and description!");
     return;
   }
 
-  API.saveExample(example).then(function() {
+  API.saveExample(check).then(function() {
     refreshExamples();
   });
 
-  $exampleText.val("");
-  $exampleDescription.val("");
+  $checkName.val("");
+  $checkDescription.val("");
+  $checkUrl.val("");
+  $checkFrequency.val("");
 };
 
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
+var handleManualButtonClick = function(event) {
+  event.preventDefault();
+  console.log(event.target.id);
+  let id = parseInt(event.target.id);
+
+  API.runCheck(id).then(function(response) {
+    console.log(response);
+    // refreshExamples();
+    alert("You received the following response: " + response);
+  });
+};
+
+// handleDeleteBtnClick is called when an check's delete button is clicked
+// Remove the check from the db and refresh the list
 var handleDeleteBtnClick = function() {
   var idToDelete = $(this)
     .parent()
@@ -96,4 +123,5 @@ var handleDeleteBtnClick = function() {
 
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);
+$checkList.on("click", ".delete", handleDeleteBtnClick);
+$manualCheck.on("click", handleManualButtonClick);

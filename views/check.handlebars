@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col-8 offset-2">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">Example</h5>
+          <p>
+            <strong>ID</strong>: {{check.id}}</p>
+          <p>
+            <p>
+              <strong>Name</strong>: {{check.name}}</p>
+            <p>
+              <strong>Description:</strong> {{check.description}}
+              </p>
+              <p>
+              <strong>URL:</strong> {{check.url}}
+              </p>
+              <p>
+              <strong>Frequency:</strong> {{check.frequency}}
+              </p>
+            <a href="/">← Back To Home</a>
+            <button class="runCheck"  id="{{check.id}}">Check now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
